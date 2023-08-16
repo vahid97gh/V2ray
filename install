@@ -1,0 +1,12 @@
+#!/bin/bash
+Resolv= /etc/resolv.conf
+if [ -f "$Resolv"]; then
+echo "resolv is exist!"
+else
+sudo touch /etc/resolv.conf
+echo -e "nameserver 8.8.8.8 \nnameserver 4.2.2.4" > /etc/resolv.conf
+fi
+apt update && apt upgrade -y
+apt install curl socat -y
+curl https://get.acme.sh | sh
+bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/x-ui/master/install.sh)
