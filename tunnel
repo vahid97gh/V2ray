@@ -1,0 +1,28 @@
+#!/bin/bash
+sudo unlink /etc/resolv.conf
+sudo touch /etc/resolv.conf
+sudo echo -e "nameserver 8.8.8.8 \nnameserver 4.2.2.4" > /etc/resolv.conf
+sudo apt update -y
+echo "what is your Iran Ip?"
+read ip_iran
+echo "what is your Kharej IP?"
+read ip_kharej
+sudo sysctl net.ipv4.ip_forward=1
+iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination $ip_iran
+iptables -t nat -A PREROUTING -j DNAT --to-destination $ip_kharej
+sudo iptables -t nat -A POSTROUTING -j MASQUERADE
+sudo rm -rf /etc/rc.local
+sudo touch /etc/rc.local
+sudo echo -e "#! /bin/bash \nsysctl net.ipv4.ip_forward=1 \niptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination $ip_iran \niptables -t nat -A PREROUTING -j DNAT --to-destination $ip_kharej \niptables -t nat -A POSTROUTING -j MASQUERADE \nexit 0" > /etc/rc.local
+sudo chmod +x /etc/rc.local
+sudo unlink /etc/resolv.conf
+sudo touch /etc/resolv.conf
+sudo echo -e "nameserver 8.8.8.8 \nnameserver 4.2.2.4" > /etc/resolv.conf
+echo "A reboot is required to apply the changes. Do you agree?(y/n)"
+read x
+if [ $x == "y" ]; then
+    sudo reboot
+    echo " The server will reboot :) "
+else
+    echo " Please reboot !!"
+fi
