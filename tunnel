@@ -8,8 +8,8 @@ read ip_iran
 echo "what is your Kharej IP?"
 read ip_kharej
 sudo sysctl net.ipv4.ip_forward=1
-iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination $ip_iran
-iptables -t nat -A PREROUTING -j DNAT --to-destination $ip_kharej
+sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination $ip_iran
+sudo iptables -t nat -A PREROUTING -j DNAT --to-destination $ip_kharej
 sudo iptables -t nat -A POSTROUTING -j MASQUERADE
 sudo rm -rf /etc/rc.local
 sudo touch /etc/rc.local
