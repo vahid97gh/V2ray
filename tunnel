@@ -22,7 +22,7 @@ echo "A reboot is required to apply the changes. Do you agree?(y/n)"
 read x
 if [ $x == "y" ]; then
     sudo reboot
-    echo " The server will reboot :) "
+    echo " The server will reboot !) "
 else
     echo " Please reboot !!"
 fi
